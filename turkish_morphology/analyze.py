@@ -32,7 +32,8 @@ def get_analyzer():
 
 def surface_form(surface_form: str,
                  use_proper_feature: Optional[bool] = True,
-                 analyzer = fst.ANALYZER) -> List[str]:
+                 analyzer = fst.ANALYZER,
+                 symbol_table=None) -> List[str]:
   """Morphologically analyses given surface form.
 
   Args:
@@ -46,7 +47,8 @@ def surface_form(surface_form: str,
     analyzer yields for the given surface form. Returns an empty list if the
     given surface form is not accepted as a Turkish word form.
   """
-  symbol_table=analyzer.input_symbols()
+  if symbol_table is None:
+    symbol_table=analyzer.input_symbols()
   input_ = fst.compile(surface_form.encode("utf-8"), symbol_table)
   output = fst.compose(input_, analyzer)
 
