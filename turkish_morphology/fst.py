@@ -19,7 +19,7 @@ import os
 import pathlib
 from typing import Generator, Iterable, List, Optional
 
-from openfst_python import pywrapfst
+from external.openfst import pywrapfst
 
 _Arc = pywrapfst.Arc
 _Fst = pywrapfst.Fst
