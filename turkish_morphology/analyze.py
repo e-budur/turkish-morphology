@@ -26,14 +26,13 @@ def _remove_proper_feature(human_readable: str) -> str:
   human_readable = human_readable.replace("+[Proper=True]", "")
   return human_readable
 
-def get_symbol_table():
-    symbol_table = fst.ANALYZER.input_symbols()
-    return symbol_table
+def get_analyzer():
+    return fst.ANALYZER
 
 
 def surface_form(surface_form: str,
                  use_proper_feature: Optional[bool] = True,
-                 symbol_table=fst.ANALYZER.input_symbols()) -> List[str]:
+                 analyzer = fst.ANALYZER) -> List[str]:
   """Morphologically analyses given surface form.
 
   Args:
@@ -47,8 +46,9 @@ def surface_form(surface_form: str,
     analyzer yields for the given surface form. Returns an empty list if the
     given surface form is not accepted as a Turkish word form.
   """
+  symbol_table=analyzer.input_symbols()
   input_ = fst.compile(surface_form.encode("utf-8"), symbol_table)
-  output = fst.compose(input_, fst.ANALYZER)
+  output = fst.compose(input_, analyzer)
 
   if output.start() == -1:  # has no path to the accept state.
     return []
